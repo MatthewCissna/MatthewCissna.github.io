@@ -33,7 +33,6 @@
       radial-gradient(circle at 85% 80%, rgba(43,39,35,0.03), transparent 45%);
   }
 
-  /* subtle paper grain */
   body::before {
     content: "";
     position: fixed;
@@ -44,15 +43,14 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* ---------- Header ---------- */
   header {
-    min-height: 70vh;
+    min-height: 62vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 4rem 1.5rem 3rem;
+    padding: 4rem 1.5rem 2rem;
     position: relative;
   }
 
@@ -93,7 +91,7 @@
   }
 
   .scroll-cue {
-    margin-top: 3.5rem;
+    margin-top: 3rem;
     font-size: 0.8rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
@@ -111,11 +109,45 @@
     50% { transform: translateY(6px); }
   }
 
-  /* ---------- Poems ---------- */
+  .foreword {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 1rem;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1.1s ease, transform 1.1s ease;
+  }
+  .foreword.visible { opacity: 1; transform: translateY(0); }
+
+  .foreword .label {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--rust);
+    font-size: 1.3rem;
+    text-align: center;
+    margin-bottom: 1.8rem;
+  }
+  .foreword p {
+    font-style: italic;
+    color: #4a443c;
+    font-size: 1.12rem;
+    line-height: 1.85;
+    margin-bottom: 1.2rem;
+  }
+  .foreword .divider {
+    width: 50px;
+    height: 1px;
+    background: var(--line);
+    margin: 3rem auto 0;
+  }
+
   main {
     max-width: 660px;
     margin: 0 auto;
-    padding: 2rem 1.5rem 8rem;
+    padding: 1rem 1.5rem 8rem;
     position: relative;
     z-index: 2;
   }
@@ -161,14 +193,12 @@
 
   .poem .body .stanza-gap { display: block; height: 1.3rem; }
 
-  /* lowercase poem keeps its hush */
   .poem.lowercase h2 {
     text-transform: lowercase;
     font-style: italic;
     font-weight: 300;
   }
 
-  /* ---------- Footer ---------- */
   footer {
     text-align: center;
     padding: 4rem 1.5rem 5rem;
@@ -195,11 +225,19 @@
 <body>
 
 <header>
-  <div class="eyebrow">Collected Poems</div>
+  <div class="eyebrow">A Collection of Childhood Poems</div>
   <h1>Matthew<br><em>Cissna</em></h1>
   <p class="tagline">copper leaves, a lost mitten, and the plan you keep meaning to throw away</p>
-  <div class="scroll-cue">scroll ↓</div>
+  <div class="scroll-cue">scroll &darr;</div>
 </header>
+
+<section class="foreword">
+  <div class="label">Foreword</div>
+  <p>I wrote most of these looking backward, but they aren't really about missing being a kid. They're about the stuff you figure out when you're small and don't have words for yet.</p>
+  <p>A penguin that gets left out of the group for no reason anyone can explain. Waiting on the beach for my dad to walk back from the rocks, and learning that the waiting is its own thing, separate from the relief when he does. Asking for one thing and getting another, over and over, until you just learn to keep what you're given. None of it felt like a lesson at the time. It mostly felt like weather.</p>
+  <p>So these are childhood poems, though not the soft kind. A few of them are small and quiet, a couple reach past my own childhood toward other people's. The last one, "Advice to Myself," is the only one that looks forward instead of back, and it's basically me telling myself to stop planning so hard. Make of that what you will.</p>
+  <div class="divider"></div>
+</section>
 
 <main>
 
@@ -215,7 +253,7 @@ they may only dream.</div>
   </article>
 
   <article class="poem">
-    <h2>Inventory of a Lost Mitten</h2>
+    <h2>lost mitten</h2>
     <div class="form">sijo</div>
     <div class="body">A red mitten on the fence post, thumb pointed at the sky,
 waits out the week, then the month, fading toward a polite pink.
@@ -223,7 +261,7 @@ Somewhere a small bare hand has already forgotten it was warm.</div>
   </article>
 
   <article class="poem">
-    <h2>What the Echo Keeps</h2>
+    <h2>Echo</h2>
     <div class="body">Shout your name down the stone well, and the well says it back, smaller.
 It hands you a thinner version, a sort of one that fits before you grow.
 Children learn this game for free… the world will answer, but charges interest.</div>
@@ -281,7 +319,7 @@ nose registers.</div>
     <h2>leaf day</h2>
     <div class="body">clutching my hot cocoa
 in my favorite metal mug
-the cold found the gap at my collar,
+the cold found the tight gap at my collar,
 wet leaves covered the street,
 little me
 lapping around the yard in my sweater,
@@ -295,12 +333,30 @@ when the
 yellow trucks groaned in,
 and sucked up all the
 copper rusted leaves,
+oh,
 i was overjoyed
 then.</div>
   </article>
 
   <article class="poem">
+    <h2>On the Jetty</h2>
+    <div class="body">My father walked the black rocks out farther than I would follow. The signs
+all said people die here, turned-around waves, riptide currents, sneaker waves. My father
+walked. The black rocks out. Farther than I would follow.
+<span class="stanza-gap"></span>I stayed where the sand went hard and dark, the line the tide had
+quit converging on, and watched his back get small and casual, a man who'd read the same
+signs. My father walked. The black rocks out. Farther than I would follow.
+<span class="stanza-gap"></span>The gulls were loud about nothing. I did a kid's bad math about how far I'd have to go to yell,
+and how I wouldn't be able to. Nobody in sight, except a scared small boy. My father walked.
+The black rocks out. Farther than I would follow.
+<span class="stanza-gap"></span>He came back fine he always came back, that was the whole trick of him, and I learned the wait
+before the relief, which is the part I still know. My father walked. The black rocks out. Farther
+than I would follow.</div>
+  </article>
+
+  <article class="poem">
     <h2>I asked for a muffin</h2>
+    <div class="form">spoken word</div>
     <div class="body">I asked for a muffin
 you gave me a scone.
 A little sad pastry,
@@ -325,6 +381,63 @@ You gave me a smile.
 what the world let me keep.
 I ate the whole thing
 and walked myself home.</div>
+  </article>
+
+  <article class="poem">
+    <h2>Zoo</h2>
+    <div class="body">The penguins smelled like a wet basement and nobody had warned me.
+I'd wanted them since the bus ride and now I wanted to go home.
+There was a keeper hosing the rocks in tall green rubber boots.
+The others bunched near the cold spray shoving for the wet spots,
+but one stood off on the dry shelf facing the painted wall.
+I asked what's wrong with it nothing is,
+the others pick one every few years and that one's the one they picked.
+No reason he could point to it just got chosen out.
+It wasn't sick or dying it ate when they threw the fish.
+It just stood where the others weren't it didn't agree to the terms.
+I was small and the word for it came later, the playground word,
+and later again the grown-up word again it happens in the lunch table, the group text.
+But the bird is where I first saw it done cleanly, without a reason,
+one of them set slightly apart and everyone fine with it.</div>
+  </article>
+
+  <article class="poem">
+    <h2>What He Carried</h2>
+    <div class="form">spoken word</div>
+    <div class="body">There were no great truths at the border.
+No one handed him a country in his mouth.
+There was a folding chair, and a number too.
+The man behind the pass-through window didn't look up.
+Glass like a ticket booth, except for what it sold.
+Oh, he decided things.
+He had a bag. In the bag: a phone with a cracked face,
+a charger for a wall
+that no longer existed,
+And there was a key.
+He kept the key not for a lock on a door
+for the hand that used to turn it.
+A photograph gone soft at the corners
+from the hands that kept reaching for it.
+<span class="stanza-gap"></span>He is not a story about courage.
+He didn't want to brave.
+He just did not want to die in the place he was from,
+which is a smaller, more ordinary thing.
+He shouldn't have had to choose it.
+<span class="stanza-gap"></span>So now he buses tables in a town he can't spell. Now he stands in a lot at six in the morning with
+other men who don't talk about it. He learns the word appointment. He learns the word
+pending.
+He knows the word patience, for it is all he ever knew, which the woman at the desk uses as if it
+costs her nothing.
+<span class="stanza-gap"></span>Some sit in the chair. And wait.
+And are told to come back later.
+And come back later.
+And sit in the chair.
+Some of them get sent home to what they fled from.
+Some don't.
+<span class="stanza-gap"></span>There is no lesson in him.
+He bent down this morning and went to work.
+The key is still in his pocket.
+He can feel it when he kneels.</div>
   </article>
 
   <article class="poem">
@@ -364,12 +477,12 @@ and what shatters this ruse you keep calling the plan.</div>
 </main>
 
 <footer>
-  <span class="leaf">❦</span>
+  <span class="leaf">&#10086;</span>
   Matthew Cissna
 </footer>
 
 <script>
-  const poems = document.querySelectorAll('.poem');
+  const reveal = document.querySelectorAll('.poem, .foreword');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -378,7 +491,7 @@ and what shatters this ruse you keep calling the plan.</div>
       }
     });
   }, { threshold: 0.15 });
-  poems.forEach(p => observer.observe(p));
+  reveal.forEach(el => observer.observe(el));
 </script>
 
 </body>
