@@ -6,31 +6,33 @@
 <title>Matthew Cissna — Poetry</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Spectral:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #f4efe6;
-    --ink: #2b2723;
-    --rust: #9c5a33;
-    --faded: #8a8073;
-    --line: #d8cfc0;
+    --bg: #161310;
+    --bg-soft: #1d1916;
+    --bone: #ece4d6;
+    --bone-dim: #b3a892;
+    --rust: #c9763e;
+    --rust-soft: #a8623480;
+    --line: #3a332c;
     --display: "Fraunces", Georgia, serif;
     --body: "Spectral", Georgia, serif;
+    --menu-w: 280px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--paper);
-    color: var(--ink);
+    background: var(--bg);
+    color: var(--bone);
     font-family: var(--body);
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     background-image:
-      radial-gradient(circle at 20% 10%, rgba(156,90,51,0.04), transparent 40%),
-      radial-gradient(circle at 85% 80%, rgba(43,39,35,0.03), transparent 45%);
+      radial-gradient(circle at 12% 8%, rgba(201,118,62,0.07), transparent 38%),
+      radial-gradient(circle at 90% 92%, rgba(201,118,62,0.05), transparent 42%);
   }
 
   body::before {
@@ -38,70 +40,210 @@
     position: fixed;
     inset: 0;
     pointer-events: none;
-    opacity: 0.035;
+    opacity: 0.05;
     z-index: 1;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- Side menu (desktop) ---------- */
+  .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--menu-w);
+    height: 100vh;
+    padding: 3rem 2rem;
+    border-right: 1px solid var(--line);
+    background: var(--bg-soft);
+    overflow-y: auto;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu .brand {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: 1.7rem;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+    cursor: pointer;
+    color: var(--bone);
+    text-decoration: none;
+    display: block;
+  }
+  .menu .brand em { font-style: italic; color: var(--rust); }
+  .menu .brand-sub {
+    font-style: italic;
+    color: var(--bone-dim);
+    font-size: 0.85rem;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  .menu .toc-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+    margin-bottom: 1.2rem;
+  }
+
+  .menu ol {
+    list-style: none;
+    counter-reset: poem;
+  }
+  .menu li { counter-increment: poem; }
+  .menu li a {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    padding: 0.42rem 0;
+    color: var(--bone-dim);
+    text-decoration: none;
+    font-size: 0.97rem;
+    line-height: 1.3;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+  .menu li a::before {
+    content: counter(poem, decimal-leading-zero);
+    font-family: var(--display);
+    font-size: 0.72rem;
+    color: var(--line);
+    transition: color 0.25s ease;
+    flex-shrink: 0;
+    padding-top: 0.15rem;
+  }
+  .menu li a:hover {
+    color: var(--bone);
+    transform: translateX(4px);
+  }
+  .menu li a:hover::before { color: var(--rust); }
+  .menu li a.active {
+    color: var(--rust);
+    font-style: italic;
+  }
+  .menu li a.active::before { color: var(--rust); }
+
+  /* ---------- Mobile top bar ---------- */
+  .topbar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 20;
+    background: rgba(22,19,16,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    padding: 0.9rem 1.2rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .topbar .t-brand {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    color: var(--bone);
+  }
+  .topbar .t-brand em { font-style: italic; color: var(--rust); }
+  .topbar button {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--bone);
+    font-family: var(--body);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.45rem 0.9rem;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .drawer {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 19;
+    background: rgba(22,19,16,0.98);
+    padding: 5rem 2rem 2rem;
+    overflow-y: auto;
+  }
+  .drawer.open { display: block; }
+  .drawer ol { list-style: none; counter-reset: m; }
+  .drawer li { counter-increment: m; }
+  .drawer li a {
+    display: flex;
+    gap: 0.8rem;
+    align-items: baseline;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--bone);
+    text-decoration: none;
+    font-size: 1.15rem;
+  }
+  .drawer li a::before {
+    content: counter(m, decimal-leading-zero);
+    font-family: var(--display);
+    font-size: 0.8rem;
+    color: var(--rust);
+  }
+
+  /* ---------- Content column ---------- */
+  .wrap {
+    margin-left: var(--menu-w);
+    min-height: 100vh;
   }
 
   header {
-    min-height: 62vh;
+    min-height: 78vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 4rem 1.5rem 2rem;
+    align-items: flex-start;
+    text-align: left;
+    padding: 4rem clamp(2rem, 7vw, 7rem);
     position: relative;
+    border-bottom: 1px solid var(--line);
   }
-
   header .eyebrow {
-    font-family: var(--body);
     font-style: italic;
     font-size: 1rem;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     color: var(--rust);
     margin-bottom: 1.5rem;
     opacity: 0;
     animation: rise 1s ease 0.2s forwards;
   }
-
   header h1 {
     font-family: var(--display);
     font-weight: 300;
-    font-size: clamp(2.8rem, 9vw, 6rem);
-    line-height: 1;
-    letter-spacing: -0.02em;
+    font-size: clamp(3rem, 11vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
     opacity: 0;
     animation: rise 1.1s ease 0.4s forwards;
   }
-
-  header h1 em {
-    font-style: italic;
-    color: var(--rust);
-  }
-
+  header h1 em { font-style: italic; color: var(--rust); }
   header .tagline {
-    margin-top: 1.8rem;
+    margin-top: 2rem;
     font-style: italic;
-    color: var(--faded);
-    font-size: 1.15rem;
-    max-width: 30ch;
+    color: var(--bone-dim);
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    max-width: 34ch;
     opacity: 0;
     animation: rise 1.1s ease 0.7s forwards;
   }
-
   .scroll-cue {
     margin-top: 3rem;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--faded);
+    color: var(--bone-dim);
     opacity: 0;
     animation: rise 1s ease 1s forwards, float 3s ease-in-out 2s infinite;
   }
 
   @keyframes rise {
-    from { opacity: 0; transform: translateY(18px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
   @keyframes float {
@@ -110,9 +252,9 @@
   }
 
   .foreword {
-    max-width: 600px;
+    max-width: 620px;
     margin: 0 auto;
-    padding: 3rem 1.5rem 1rem;
+    padding: 4.5rem clamp(1.5rem, 5vw, 3rem) 1rem;
     position: relative;
     z-index: 2;
     opacity: 0;
@@ -120,62 +262,64 @@
     transition: opacity 1.1s ease, transform 1.1s ease;
   }
   .foreword.visible { opacity: 1; transform: translateY(0); }
-
   .foreword .label {
     font-family: var(--display);
     font-style: italic;
     font-weight: 400;
     color: var(--rust);
-    font-size: 1.3rem;
-    text-align: center;
+    font-size: 1.35rem;
     margin-bottom: 1.8rem;
   }
   .foreword p {
     font-style: italic;
-    color: #4a443c;
-    font-size: 1.12rem;
-    line-height: 1.85;
+    color: #d3c8b6;
+    font-size: 1.15rem;
+    line-height: 1.9;
     margin-bottom: 1.2rem;
   }
   .foreword .divider {
-    width: 50px;
-    height: 1px;
-    background: var(--line);
-    margin: 3rem auto 0;
+    width: 60px;
+    height: 2px;
+    background: var(--rust);
+    margin: 3rem 0 0;
+    opacity: 0.6;
   }
 
   main {
-    max-width: 660px;
+    max-width: 680px;
     margin: 0 auto;
-    padding: 1rem 1.5rem 8rem;
+    padding: 1rem clamp(1.5rem, 5vw, 3rem) 8rem;
     position: relative;
     z-index: 2;
   }
 
   .poem {
-    padding: 4.5rem 0;
+    padding: 5rem 0;
+    scroll-margin-top: 2rem;
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(30px);
     transition: opacity 1.1s ease, transform 1.1s ease;
   }
-  .poem.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .poem.visible { opacity: 1; transform: translateY(0); }
+  .poem:not(:last-child) { border-bottom: 1px solid var(--line); }
 
-  .poem:not(:last-child) {
-    border-bottom: 1px solid var(--line);
+  .poem .num {
+    font-family: var(--display);
+    font-size: 0.85rem;
+    color: var(--rust);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.8rem;
   }
-
   .poem h2 {
     font-family: var(--display);
     font-weight: 400;
-    font-size: clamp(1.6rem, 4.5vw, 2.3rem);
-    line-height: 1.15;
-    letter-spacing: -0.01em;
+    font-size: clamp(1.7rem, 4.5vw, 2.5rem);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
     margin-bottom: 0.3rem;
+    color: var(--bone);
   }
-
   .poem .form {
     font-style: italic;
     color: var(--rust);
@@ -183,46 +327,112 @@
     margin-bottom: 2rem;
   }
   .poem h2 + .body { margin-top: 2rem; }
-
   .poem .body {
-    font-size: 1.18rem;
-    color: #38332d;
+    font-size: 1.2rem;
+    color: #ddd2c0;
     white-space: pre-wrap;
-    line-height: 1.85;
+    line-height: 1.9;
   }
-
   .poem .body .stanza-gap { display: block; height: 1.3rem; }
-
   .poem.lowercase h2 {
     text-transform: lowercase;
     font-style: italic;
     font-weight: 300;
   }
 
+  .totop {
+    display: inline-block;
+    margin-top: 2.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 2px;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+  .totop:hover { color: var(--rust); border-color: var(--rust); }
+
   footer {
     text-align: center;
     padding: 4rem 1.5rem 5rem;
     border-top: 1px solid var(--line);
-    color: var(--faded);
+    color: var(--bone-dim);
     font-style: italic;
     position: relative;
     z-index: 2;
   }
   footer .leaf {
     color: var(--rust);
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     display: block;
     margin-bottom: 1rem;
     font-style: normal;
   }
 
-  @media (max-width: 480px) {
-    .poem { padding: 3.5rem 0; }
-    .poem .body { font-size: 1.08rem; }
+  /* ---------- Responsive ---------- */
+  @media (max-width: 880px) {
+    .menu { display: none; }
+    .topbar { display: flex; }
+    .wrap { margin-left: 0; }
+    header {
+      min-height: 70vh;
+      align-items: center;
+      text-align: center;
+      padding-top: 6rem;
+    }
+    header .tagline { margin-left: auto; margin-right: auto; }
+    .poem { padding: 3.8rem 0; }
+    .poem .body { font-size: 1.1rem; }
   }
 </style>
 </head>
 <body>
+
+<!-- Desktop side menu -->
+<nav class="menu">
+  <a href="#top" class="brand">Matthew<br><em>Cissna</em></a>
+  <div class="brand-sub">Collected Poems</div>
+  <div class="toc-label">Contents</div>
+  <ol id="toc">
+    <li><a href="#p1">Emperor Butterflies Dancing Under Moonlight</a></li>
+    <li><a href="#p2">lost mitten</a></li>
+    <li><a href="#p3">Echo</a></li>
+    <li><a href="#p4">For When I Become a Cowboy</a></li>
+    <li><a href="#p5">Skunk Cabbage</a></li>
+    <li><a href="#p6">leaf day</a></li>
+    <li><a href="#p7">On the Jetty</a></li>
+    <li><a href="#p8">I asked for a muffin</a></li>
+    <li><a href="#p9">Zoo</a></li>
+    <li><a href="#p10">What He Carried</a></li>
+    <li><a href="#p11">Advice to Myself</a></li>
+  </ol>
+</nav>
+
+<!-- Mobile bar + drawer -->
+<div class="topbar">
+  <a href="#top" class="t-brand">Matthew <em>Cissna</em></a>
+  <button id="menuBtn">Poems</button>
+</div>
+<div class="drawer" id="drawer">
+  <ol>
+    <li><a href="#p1">Emperor Butterflies Dancing Under Moonlight</a></li>
+    <li><a href="#p2">lost mitten</a></li>
+    <li><a href="#p3">Echo</a></li>
+    <li><a href="#p4">For When I Become a Cowboy</a></li>
+    <li><a href="#p5">Skunk Cabbage</a></li>
+    <li><a href="#p6">leaf day</a></li>
+    <li><a href="#p7">On the Jetty</a></li>
+    <li><a href="#p8">I asked for a muffin</a></li>
+    <li><a href="#p9">Zoo</a></li>
+    <li><a href="#p10">What He Carried</a></li>
+    <li><a href="#p11">Advice to Myself</a></li>
+  </ol>
+</div>
+
+<div class="wrap">
+<a id="top"></a>
 
 <header>
   <div class="eyebrow">A Collection of Childhood Poems</div>
@@ -233,15 +443,16 @@
 
 <section class="foreword">
   <div class="label">Foreword</div>
-  <p>I wrote most of these looking backward and they aren't really about missing being a kid, they're more about things that you figure out when you're little, but don't really know how to process. </p>
+  <p>I wrote most of these looking backward and they aren't really about missing being a kid, they're more about things that you figure out when you're little, but don't really know how to process.</p>
   <p>So these are childhood poems, but they aren't necessarily very soft. A few of them are small and quiet, a couple reach past my own childhood toward other people's. The last one, "Advice to Myself," is a poem that looks ahead, instead of back.</p>
-  </p> Make of them what you will.</p>
+  <p>Make of them what you will.</p>
   <div class="divider"></div>
 </section>
 
 <main>
 
-  <article class="poem">
+  <article class="poem" id="p1">
+    <span class="num">I</span>
     <h2>Emperor Butterflies Dancing Under Moonlight</h2>
     <div class="form">sijo</div>
     <div class="body">Black and white spots paint fiery amber wings
@@ -252,7 +463,8 @@ Forever nestled in a cocoon
 they may only dream.</div>
   </article>
 
-  <article class="poem">
+  <article class="poem" id="p2">
+    <span class="num">II</span>
     <h2>lost mitten</h2>
     <div class="form">sijo</div>
     <div class="body">A red mitten on the fence post, thumb pointed at the sky,
@@ -260,14 +472,16 @@ waits out the week, then the month, fading toward a polite pink.
 Somewhere a small bare hand has already forgotten it was warm.</div>
   </article>
 
-  <article class="poem">
+  <article class="poem" id="p3">
+    <span class="num">III</span>
     <h2>Echo</h2>
     <div class="body">Shout your name down the stone well, and the well says it back, smaller.
 It hands you a thinner version, a sort of one that fits before you grow.
 Children learn this game for free… the world will answer, but charges interest.</div>
   </article>
 
-  <article class="poem">
+  <article class="poem" id="p4">
+    <span class="num">IV</span>
     <h2>For When I Become a Cowboy</h2>
     <div class="body">When I become a Cowboy,
 I'll ride until the burnt copper sun bleeds into the mesa,
@@ -285,7 +499,8 @@ I'll keep my eyes low
 and let it sting my throat.</div>
   </article>
 
-  <article class="poem">
+  <article class="poem" id="p5">
+    <span class="num">V</span>
     <h2>Skunk Cabbage</h2>
     <div class="body">Skunk cabbage
 rotting into the soil.
@@ -315,7 +530,8 @@ back of your throat, before your
 nose registers.</div>
   </article>
 
-  <article class="poem lowercase">
+  <article class="poem lowercase" id="p6">
+    <span class="num">VI</span>
     <h2>leaf day</h2>
     <div class="body">clutching my hot cocoa
 in my favorite metal mug
@@ -338,7 +554,8 @@ i was overjoyed
 then.</div>
   </article>
 
-  <article class="poem">
+  <article class="poem" id="p7">
+    <span class="num">VII</span>
     <h2>On the Jetty</h2>
     <div class="body">My father walked the black rocks out farther than I would follow. The signs
 all said people die here, turned-around waves, riptide currents, sneaker waves. My father
@@ -354,7 +571,8 @@ before the relief, which is the part I still know. My father walked. The black r
 than I would follow.</div>
   </article>
 
-  <article class="poem">
+  <article class="poem" id="p8">
+    <span class="num">VIII</span>
     <h2>I asked for a muffin</h2>
     <div class="form">spoken word</div>
     <div class="body">I asked for a muffin
@@ -383,7 +601,8 @@ I ate the whole thing
 and walked myself home.</div>
   </article>
 
-  <article class="poem">
+  <article class="poem" id="p9">
+    <span class="num">IX</span>
     <h2>Zoo</h2>
     <div class="body">The penguins smelled like a wet basement and nobody had warned me.
 I'd wanted them since the bus ride and now I wanted to go home.
@@ -401,7 +620,8 @@ But the bird is where I first saw it done cleanly, without a reason,
 one of them set slightly apart and everyone fine with it.</div>
   </article>
 
-  <article class="poem">
+  <article class="poem" id="p10">
+    <span class="num">X</span>
     <h2>What He Carried</h2>
     <div class="form">spoken word</div>
     <div class="body">There were no great truths at the border.
@@ -440,7 +660,8 @@ The key is still in his pocket.
 He can feel it when he kneels.</div>
   </article>
 
-  <article class="poem">
+  <article class="poem" id="p11">
+    <span class="num">XI</span>
     <h2>Advice to Myself</h2>
     <div class="body">Don't write up the future.
 When your great-uncle asks, "What's your five-year plan?"
@@ -471,7 +692,8 @@ Accept new forms of life. Let the strangers in through the screen door,
 for a meal, and memories.
 <span class="stanza-gap"></span>Read nothing except what tears down
 the insulation between yourself and your one life,
-and what shatters this ruse you keep calling the plan.</div>
+and what shatters this ruse you keep calling the plan.
+<a href="#top" class="totop">return to top &uarr;</a></div>
   </article>
 
 </main>
@@ -480,18 +702,45 @@ and what shatters this ruse you keep calling the plan.</div>
   <span class="leaf">&#10086;</span>
   Matthew Cissna
 </footer>
+</div>
 
 <script>
+  // Reveal on scroll
   const reveal = document.querySelectorAll('.poem, .foreword');
-  const observer = new IntersectionObserver((entries) => {
+  const revObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+        revObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
-  reveal.forEach(el => observer.observe(el));
+  }, { threshold: 0.12 });
+  reveal.forEach(el => revObserver.observe(el));
+
+  // Active-link highlighting in side menu
+  const tocLinks = document.querySelectorAll('#toc li a');
+  const poems = document.querySelectorAll('.poem');
+  const linkById = {};
+  tocLinks.forEach(a => { linkById[a.getAttribute('href').slice(1)] = a; });
+
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('active'));
+        const link = linkById[entry.target.id];
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  poems.forEach(p => spyObserver.observe(p));
+
+  // Mobile drawer toggle
+  const btn = document.getElementById('menuBtn');
+  const drawer = document.getElementById('drawer');
+  btn.addEventListener('click', () => drawer.classList.toggle('open'));
+  drawer.querySelectorAll('a').forEach(a =>
+    a.addEventListener('click', () => drawer.classList.remove('open'))
+  );
 </script>
 
 </body>
